@@ -6,6 +6,7 @@ import CreatePost from '@/components/Feed/CreatePost';
 import PostCard from '@/components/Feed/PostCard';
 import TrendingTopics from '@/components/Trending/TrendingTopics';
 import SuggestedUsers from '@/components/Community/SuggestedUsers';
+import AirdropStats from '@/components/Airdrops/AirdropStats';
 
 const Index = () => {
   // Sample posts data
@@ -91,6 +92,7 @@ const Index = () => {
             
             {/* Right Sidebar */}
             <div className="space-y-6">
+              <AirdropStats />
               <TrendingTopics />
               <SuggestedUsers />
             </div>

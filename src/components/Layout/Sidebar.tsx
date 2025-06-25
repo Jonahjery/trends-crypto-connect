@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings } from 'lucide-react';
+import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Sidebar = () => {
@@ -8,6 +7,7 @@ const Sidebar = () => {
     { name: 'Home', icon: Home, active: true },
     { name: 'Communities', icon: Users },
     { name: 'Trending', icon: TrendingUp },
+    { name: 'Airdrops', icon: Zap },
     { name: 'Messages', icon: MessageSquare },
   ];
 
