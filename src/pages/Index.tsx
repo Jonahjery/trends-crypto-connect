@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/Layout/Header';
 import Sidebar from '@/components/Layout/Sidebar';
 import CreatePost from '@/components/Feed/CreatePost';
@@ -9,6 +8,8 @@ import SuggestedUsers from '@/components/Community/SuggestedUsers';
 import AirdropStats from '@/components/Airdrops/AirdropStats';
 
 const Index = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   // Sample posts data
   const posts = [
     {
@@ -71,30 +72,35 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header onMenuClick={() => setSidebarOpen(true)} />
       
       <div className="flex">
-        <Sidebar />
+        <Sidebar 
+          isOpen={sidebarOpen} 
+          onClose={() => setSidebarOpen(false)} 
+        />
         
         {/* Main Content */}
-        <main className="flex-1 max-w-4xl mx-auto p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Feed */}
-            <div className="lg:col-span-2">
-              <CreatePost />
-              
-              <div className="space-y-0">
-                {posts.map((post, index) => (
-                  <PostCard key={index} {...post} />
-                ))}
+        <main className="flex-1 w-full md:w-auto p-4 sm:p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+              {/* Feed */}
+              <div className="xl:col-span-2">
+                <CreatePost />
+                
+                <div className="space-y-0">
+                  {posts.map((post, index) => (
+                    <PostCard key={index} {...post} />
+                  ))}
+                </div>
               </div>
-            </div>
-            
-            {/* Right Sidebar */}
-            <div className="space-y-6">
-              <AirdropStats />
-              <TrendingTopics />
-              <SuggestedUsers />
+              
+              {/* Right Sidebar */}
+              <div className="space-y-6">
+                <AirdropStats />
+                <TrendingTopics />
+                <SuggestedUsers />
+              </div>
             </div>
           </div>
         </main>

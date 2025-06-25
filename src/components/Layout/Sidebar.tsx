@@ -1,8 +1,14 @@
+
 import React from 'react';
-import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings, Zap } from 'lucide-react';
+import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings, Zap, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const Sidebar = () => {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
   const categories = [
     { name: 'Home', icon: Home, active: true },
     { name: 'Communities', icon: Users },
@@ -19,49 +25,92 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 h-screen sticky top-16 overflow-y-auto">
-      <div className="p-6">
-        {/* Navigation */}
-        <nav className="space-y-2 mb-8">
-          {categories.map((item) => (
-            <Button
-              key={item.name}
-              variant={item.active ? "default" : "ghost"}
-              className="w-full justify-start"
-            >
-              <item.icon className="h-5 w-5 mr-3" />
-              {item.name}
+    <>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={onClose}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <aside className={`
+        fixed md:sticky top-0 md:top-16 left-0 z-50 md:z-auto
+        w-64 bg-white border-r border-gray-200 h-screen md:h-[calc(100vh-4rem)]
+        transform transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        overflow-y-auto
+      `}>
+        <div className="p-6">
+          {/* Mobile close button */}
+          <div className="flex justify-between items-center mb-6 md:hidden">
+            <span className="text-lg font-semibold">Menu</span>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-5 w-5" />
             </Button>
-          ))}
-        </nav>
+          </div>
 
-        {/* Communities */}
-        <div>
-          <h3 className="text-sm font-semibold text-gray-500 mb-4 uppercase tracking-wider">
-            Top Communities
-          </h3>
-          <div className="space-y-3">
-            {communities.map((community) => (
-              <div key={community.name} className="flex items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-                <community.icon className={`h-5 w-5 mr-3 ${community.color}`} />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">{community.name}</p>
-                  <p className="text-xs text-gray-500">{community.members} members</p>
-                </div>
-              </div>
+          {/* Navigation */}
+          <nav className="space-y-2 mb-8">
+            {categories.map((item) => (
+              <Button
+                key={item.name}
+                variant={item.active ? "default" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => {
+                  // Close mobile menu when item is clicked
+                  if (onClose) onClose();
+                }}
+              >
+                <item.icon className="h-5 w-5 mr-3" />
+                {item.name}
+              </Button>
             ))}
+          </nav>
+
+          {/* Communities */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-500 mb-4 uppercase tracking-wider">
+              Top Communities
+            </h3>
+            <div className="space-y-3">
+              {communities.map((community) => (
+                <div 
+                  key={community.name} 
+                  className="flex items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+                  onClick={() => {
+                    // Close mobile menu when item is clicked
+                    if (onClose) onClose();
+                  }}
+                >
+                  <community.icon className={`h-5 w-5 mr-3 ${community.color}`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{community.name}</p>
+                    <p className="text-xs text-gray-500">{community.members} members</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Settings */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <Button 
+              variant="ghost" 
+              className="w-full justify-start"
+              onClick={() => {
+                // Close mobile menu when item is clicked
+                if (onClose) onClose();
+              }}
+            >
+              <Settings className="h-5 w-5 mr-3" />
+              Settings
+            </Button>
           </div>
         </div>
-
-        {/* Settings */}
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <Button variant="ghost" className="w-full justify-start">
-            <Settings className="h-5 w-5 mr-3" />
-            Settings
-          </Button>
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };
 
