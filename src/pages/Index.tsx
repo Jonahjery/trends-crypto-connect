@@ -32,7 +32,7 @@ const Index = () => {
         name: 'Senator Johnson',
         username: 'senatorjohnson',
         verified: true,
-        role: 'Government Official'
+        role: 'United States'
       },
       content: 'Today we announced new legislation to support digital innovation while ensuring consumer protection. Our committee has been working closely with industry leaders to create a balanced regulatory framework that fosters growth and maintains security standards.',
       timestamp: '3h',
@@ -68,6 +68,20 @@ const Index = () => {
       comments: 67,
       shares: 89,
       category: 'Politics'
+    },
+    {
+      author: {
+        name: 'Minister Sarah Chen',
+        username: 'ministerchen',
+        verified: true,
+        role: 'Singapore'
+      },
+      content: 'Excited to announce Singapore\'s new fintech sandbox program launching next month. This initiative will allow blockchain startups to test their innovations in a regulated environment. We\'re committed to making Singapore a global hub for digital finance.',
+      timestamp: '8h',
+      likes: 445,
+      comments: 78,
+      shares: 156,
+      category: 'Government Policy'
     }
   ];
 
