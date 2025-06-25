@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from '@/components/Layout/Header';
 import Sidebar from '@/components/Layout/Sidebar';
@@ -28,6 +29,20 @@ const Index = () => {
     },
     {
       author: {
+        name: 'Senator Johnson',
+        username: 'senatorjohnson',
+        verified: true,
+        role: 'Government Official'
+      },
+      content: 'Today we announced new legislation to support digital innovation while ensuring consumer protection. Our committee has been working closely with industry leaders to create a balanced regulatory framework that fosters growth and maintains security standards.',
+      timestamp: '3h',
+      likes: 892,
+      comments: 156,
+      shares: 445,
+      category: 'Government Policy'
+    },
+    {
+      author: {
         name: 'Climate Action Network',
         username: 'climateaction',
         verified: true,
@@ -35,9 +50,9 @@ const Index = () => {
       },
       content: 'Our latest campaign has reached 1 million supporters! Together, we\'ve planted over 50,000 trees and reduced carbon emissions by 25% in partner cities. Thank you to everyone who joined our mission for a sustainable future. 🌱 #ClimateAction',
       timestamp: '4h',
-      likes: 892,
-      comments: 156,
-      shares: 445,
+      likes: 567,
+      comments: 234,
+      shares: 123,
       category: 'NGO Updates'
     },
     {
@@ -49,24 +64,10 @@ const Index = () => {
       },
       content: 'ANALYSIS: The recent policy changes are expected to impact small businesses significantly. Our team has analyzed the implications and found that 73% of surveyed entrepreneurs are optimistic about the new regulations. Full report in comments. 📊',
       timestamp: '6h',
-      likes: 567,
-      comments: 234,
-      shares: 123,
-      category: 'Politics'
-    },
-    {
-      author: {
-        name: 'Tech Entrepreneur',
-        username: 'techfounder',
-        verified: false,
-        role: 'Individual'
-      },
-      content: 'Just launched our new community platform for connecting like-minded professionals! It\'s amazing to see how technology can bring people together across different industries and causes. Looking forward to building something meaningful together! 💪',
-      timestamp: '8h',
       likes: 234,
       comments: 67,
       shares: 89,
-      category: 'General Discussion'
+      category: 'Politics'
     }
   ];
 

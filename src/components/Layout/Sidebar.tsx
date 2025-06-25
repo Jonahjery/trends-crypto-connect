@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings, Zap, X } from 'lucide-react';
+import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings, Zap, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SidebarProps {
@@ -22,6 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
     { name: 'News Broadcasters', icon: Globe, color: 'text-blue-500', members: '23.1k' },
     { name: 'NGOs & Non-Profits', icon: Shield, color: 'text-green-500', members: '18.7k' },
     { name: 'Organizations', icon: Briefcase, color: 'text-purple-500', members: '34.5k' },
+    { name: 'Government Officials', icon: Building2, color: 'text-red-500', members: '12.3k' },
   ];
 
   return (

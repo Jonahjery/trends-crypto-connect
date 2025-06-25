@@ -31,6 +31,7 @@ const CreatePost = () => {
                   <SelectItem value="news">Breaking News</SelectItem>
                   <SelectItem value="ngo">NGO Updates</SelectItem>
                   <SelectItem value="politics">Politics</SelectItem>
+                  <SelectItem value="government">Government Policy</SelectItem>
                   <SelectItem value="general">General Discussion</SelectItem>
                 </SelectContent>
               </Select>
