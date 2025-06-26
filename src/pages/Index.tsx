@@ -4,7 +4,7 @@ import Header from '@/components/Layout/Header';
 import Sidebar from '@/components/Layout/Sidebar';
 import CreatePost from '@/components/Feed/CreatePost';
 import PostCard from '@/components/Feed/PostCard';
-import TrendingTopics from '@/components/Trending/TrendingTopics';
+import FloatingTrendingButton from '@/components/Trending/FloatingTrendingButton';
 import SuggestedUsers from '@/components/Community/SuggestedUsers';
 import AirdropStats from '@/components/Airdrops/AirdropStats';
 
@@ -113,13 +113,15 @@ const Index = () => {
               {/* Right Sidebar */}
               <div className="space-y-6">
                 <AirdropStats />
-                <TrendingTopics />
                 <SuggestedUsers />
               </div>
             </div>
           </div>
         </main>
       </div>
+      
+      {/* Floating Trending Button */}
+      <FloatingTrendingButton />
     </div>
   );
 };
