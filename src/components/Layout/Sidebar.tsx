@@ -2,6 +2,7 @@
 import React from 'react';
 import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings, Zap, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -9,12 +10,15 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const categories = [
-    { name: 'Home', icon: Home, active: true },
-    { name: 'Communities', icon: Users },
-    { name: 'Trending', icon: TrendingUp },
-    { name: 'Airdrops', icon: Zap },
-    { name: 'Messages', icon: MessageSquare },
+    { name: 'Home', icon: Home, path: '/' },
+    { name: 'Communities', icon: Users, path: '/communities' },
+    { name: 'Trending', icon: TrendingUp, path: '/trending' },
+    { name: 'Airdrops', icon: Zap, path: '/airdrops' },
+    { name: 'Messages', icon: MessageSquare, path: '/messages' },
   ];
 
   const communities = [
@@ -24,6 +28,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
     { name: 'Organizations', icon: Briefcase, color: 'text-purple-500', members: '34.5k' },
     { name: 'Government Officials', icon: Building2, color: 'text-red-500', members: '12.3k' },
   ];
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    if (onClose) onClose();
+  };
 
   return (
     <>
@@ -57,12 +66,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
             {categories.map((item) => (
               <Button
                 key={item.name}
-                variant={item.active ? "default" : "ghost"}
+                variant={location.pathname === item.path ? "default" : "ghost"}
                 className="w-full justify-start"
-                onClick={() => {
-                  // Close mobile menu when item is clicked
-                  if (onClose) onClose();
-                }}
+                onClick={() => handleNavigation(item.path)}
               >
                 <item.icon className="h-5 w-5 mr-3" />
                 {item.name}
@@ -80,10 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                 <div 
                   key={community.name} 
                   className="flex items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-                  onClick={() => {
-                    // Close mobile menu when item is clicked
-                    if (onClose) onClose();
-                  }}
+                  onClick={() => handleNavigation('/communities')}
                 >
                   <community.icon className={`h-5 w-5 mr-3 ${community.color}`} />
                   <div className="flex-1 min-w-0">
@@ -101,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
               variant="ghost" 
               className="w-full justify-start"
               onClick={() => {
-                // Close mobile menu when item is clicked
+                // Settings functionality can be added later
                 if (onClose) onClose();
               }}
             >
