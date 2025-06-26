@@ -1,8 +1,8 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Home, Users, Hash, Globe, Briefcase, Shield, MessageSquare, TrendingUp, Settings, Zap, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ProfileSettings from '@/components/Profile/ProfileSettings';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -12,6 +12,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showProfileSettings, setShowProfileSettings] = useState(false);
 
   const categories = [
     { name: 'Home', icon: Home, path: '/' },
@@ -31,6 +32,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
 
   const handleNavigation = (path: string) => {
     navigate(path);
+    if (onClose) onClose();
+  };
+
+  const handleSettingsClick = () => {
+    setShowProfileSettings(true);
     if (onClose) onClose();
   };
 
@@ -103,10 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
             <Button 
               variant="ghost" 
               className="w-full justify-start"
-              onClick={() => {
-                // Settings functionality can be added later
-                if (onClose) onClose();
-              }}
+              onClick={handleSettingsClick}
             >
               <Settings className="h-5 w-5 mr-3" />
               Settings
@@ -114,6 +117,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
           </div>
         </div>
       </aside>
+
+      {/* Profile Settings Modal */}
+      {showProfileSettings && (
+        <ProfileSettings 
+          isOpen={showProfileSettings}
+          onClose={() => setShowProfileSettings(false)}
+        />
+      )}
     </>
   );
 };
