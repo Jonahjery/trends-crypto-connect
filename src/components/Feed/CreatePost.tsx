@@ -5,11 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const CreatePost = () => {
   const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
 
   return (
     <Card className="mb-6">
@@ -20,23 +18,6 @@ const CreatePost = () => {
             <AvatarFallback>YU</AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            {/* Category Selection */}
-            <div className="mb-4">
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="crypto">Crypto News</SelectItem>
-                  <SelectItem value="news">Breaking News</SelectItem>
-                  <SelectItem value="ngo">NGO Updates</SelectItem>
-                  <SelectItem value="politics">Politics</SelectItem>
-                  <SelectItem value="government">Government Policy</SelectItem>
-                  <SelectItem value="general">General Discussion</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
             {/* Content Input */}
             <Textarea
               placeholder="What's trending in your community?"
