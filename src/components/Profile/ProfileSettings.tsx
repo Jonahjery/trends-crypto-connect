@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { User, Hash, Globe, Shield, Briefcase, Building2 } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { User, Hash, Globe, Shield, Briefcase, Building2, Camera, Upload } from 'lucide-react';
 
 interface ProfileSettingsProps {
   isOpen: boolean;
@@ -17,7 +18,8 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose }) =>
     username: 'johndoe',
     email: 'john@example.com',
     category: 'News Broadcaster', // This shouldn't change after first assignment
-    bio: 'Passionate about technology and innovation'
+    bio: 'Passionate about technology and innovation',
+    profilePicture: '' // Add profile picture state
   });
 
   const categories = [
@@ -34,11 +36,22 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose }) =>
     onClose();
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfile({...profile, profilePicture: e.target?.result as string});
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md animate-scale-in">
+      <Card className="w-full max-w-md animate-scale-in max-h-[90vh] overflow-y-auto">
         <CardHeader>
           <CardTitle className="flex items-center">
             <User className="h-5 w-5 mr-2" />
@@ -46,6 +59,46 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose }) =>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Profile Picture Section */}
+          <div className="text-center">
+            <Label>Profile Picture</Label>
+            <div className="flex flex-col items-center space-y-3 mt-2">
+              <Avatar className="h-20 w-20">
+                <AvatarImage src={profile.profilePicture} />
+                <AvatarFallback className="text-xl">
+                  {profile.profilePicture ? null : <Camera className="h-8 w-8" />}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => document.getElementById('profile-upload')?.click()}
+                  className="flex items-center"
+                >
+                  <Upload className="h-4 w-4 mr-1" />
+                  Upload
+                </Button>
+                {profile.profilePicture && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setProfile({...profile, profilePicture: ''})}
+                  >
+                    Remove
+                  </Button>
+                )}
+              </div>
+              <input
+                id="profile-upload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+            </div>
+          </div>
+          
           <div>
             <Label htmlFor="name">Name</Label>
             <Input
