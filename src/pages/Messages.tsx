@@ -6,11 +6,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Send, Search, MoreHorizontal } from 'lucide-react';
+import { Send, Search, MoreHorizontal, ArrowLeft } from 'lucide-react';
 
 const Messages = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedChat, setSelectedChat] = useState(0);
+  const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [newMessage, setNewMessage] = useState('');
 
   const conversations = [
@@ -84,6 +84,14 @@ const Messages = () => {
     }
   ];
 
+  const handleConversationClick = (index: number) => {
+    setSelectedChat(index);
+  };
+
+  const handleBackToList = () => {
+    setSelectedChat(null);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header onMenuClick={() => setSidebarOpen(true)} />
@@ -96,14 +104,14 @@ const Messages = () => {
         
         <main className="flex-1 w-full md:w-auto p-4 sm:p-6">
           <div className="max-w-7xl mx-auto h-[calc(100vh-8rem)]">
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Messages</h1>
-              <p className="text-gray-600">Connect with other community members</p>
-            </div>
+            {selectedChat === null ? (
+              <>
+                <div className="mb-6">
+                  <h1 className="text-3xl font-bold text-gray-900 mb-2">Messages</h1>
+                  <p className="text-gray-600">Connect with other community members</p>
+                </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-              {/* Conversations List */}
-              <div className="lg:col-span-1">
+                {/* Conversations List */}
                 <Card className="h-full">
                   <CardContent className="p-4">
                     <div className="mb-4">
@@ -120,10 +128,8 @@ const Messages = () => {
                       {conversations.map((conversation, index) => (
                         <div
                           key={conversation.id}
-                          className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                            selectedChat === index ? 'bg-blue-50 border border-blue-200' : 'hover:bg-gray-50'
-                          }`}
-                          onClick={() => setSelectedChat(index)}
+                          className="p-3 rounded-lg cursor-pointer transition-colors hover:bg-gray-50 border border-gray-100"
+                          onClick={() => handleConversationClick(index)}
                         >
                           <div className="flex items-center space-x-3">
                             <div className="relative">
@@ -153,72 +159,73 @@ const Messages = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
-
-              {/* Chat Window */}
-              <div className="lg:col-span-2">
-                <Card className="h-full flex flex-col">
-                  {/* Chat Header */}
-                  <div className="p-4 border-b border-gray-200">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <Avatar>
-                          <AvatarImage src={conversations[selectedChat]?.avatar} />
-                          <AvatarFallback>{conversations[selectedChat]?.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{conversations[selectedChat]?.name}</h3>
-                          <p className="text-sm text-gray-500">@{conversations[selectedChat]?.username}</p>
-                        </div>
-                      </div>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal className="h-4 w-4" />
+              </>
+            ) : (
+              /* Chat Interface */
+              <Card className="h-full flex flex-col">
+                {/* Chat Header */}
+                <div className="p-4 border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Button variant="ghost" size="sm" onClick={handleBackToList}>
+                        <ArrowLeft className="h-4 w-4" />
                       </Button>
+                      <Avatar>
+                        <AvatarImage src={conversations[selectedChat]?.avatar} />
+                        <AvatarFallback>{conversations[selectedChat]?.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">{conversations[selectedChat]?.name}</h3>
+                        <p className="text-sm text-gray-500">@{conversations[selectedChat]?.username}</p>
+                      </div>
                     </div>
+                    <Button variant="ghost" size="sm">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
                   </div>
+                </div>
 
-                  {/* Messages */}
-                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                    {messages.map((message) => (
+                {/* Messages */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  {messages.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`flex ${message.isMe ? 'justify-end' : 'justify-start'}`}
+                    >
                       <div
-                        key={message.id}
-                        className={`flex ${message.isMe ? 'justify-end' : 'justify-start'}`}
+                        className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                          message.isMe
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-100 text-gray-900'
+                        }`}
                       >
-                        <div
-                          className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                            message.isMe
-                              ? 'bg-blue-500 text-white'
-                              : 'bg-gray-100 text-gray-900'
-                          }`}
-                        >
-                          <p>{message.content}</p>
-                          <p className={`text-xs mt-1 ${
-                            message.isMe ? 'text-blue-100' : 'text-gray-500'
-                          }`}>
-                            {message.timestamp}
-                          </p>
-                        </div>
+                        <p>{message.content}</p>
+                        <p className={`text-xs mt-1 ${
+                          message.isMe ? 'text-blue-100' : 'text-gray-500'
+                        }`}>
+                          {message.timestamp}
+                        </p>
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Message Input */}
-                  <div className="p-4 border-t border-gray-200">
-                    <div className="flex space-x-2">
-                      <Input
-                        placeholder="Type a message..."
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        className="flex-1"
-                      />
-                      <Button size="sm">
-                        <Send className="h-4 w-4" />
-                      </Button>
                     </div>
+                  ))}
+                </div>
+
+                {/* Message Input */}
+                <div className="p-4 border-t border-gray-200">
+                  <div className="flex space-x-2">
+                    <Input
+                      placeholder="Type a message..."
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button size="sm">
+                      <Send className="h-4 w-4" />
+                    </Button>
                   </div>
-                </Card>
-              </div>
-            </div>
+                </div>
+              </Card>
+            )}
           </div>
         </main>
       </div>
