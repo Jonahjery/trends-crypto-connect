@@ -9,6 +9,7 @@ import Communities from "./pages/Communities";
 import Trending from "./pages/Trending";
 import Airdrops from "./pages/Airdrops";
 import Messages from "./pages/Messages";
+import CreateAirdrop from "./pages/CreateAirdrop";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/communities" element={<Communities />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/airdrops" element={<Airdrops />} />
+          <Route path="/airdrops/create" element={<CreateAirdrop />} />
           <Route path="/messages" element={<Messages />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -1,14 +1,15 @@
-
 import React from 'react';
 import Header from '@/components/Layout/Header';
 import Sidebar from '@/components/Layout/Sidebar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Clock, Users, Gift, Star } from 'lucide-react';
+import { Zap, Clock, Users, Gift, Star, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Airdrops = () => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const airdrops = [
     {
@@ -95,9 +96,18 @@ const Airdrops = () => {
         
         <main className="flex-1 w-full md:w-auto p-4 sm:p-6">
           <div className="max-w-6xl mx-auto">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Airdrops</h1>
-              <p className="text-gray-600">Participate in token airdrops and earn rewards</p>
+            <div className="mb-8 flex justify-between items-center">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Airdrops</h1>
+                <p className="text-gray-600">Participate in token airdrops and earn rewards</p>
+              </div>
+              <Button 
+                onClick={() => navigate('/airdrops/create')}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Create Airdrop
+              </Button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
