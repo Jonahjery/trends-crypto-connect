@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Hash, Globe, Shield, Briefcase, Building2, Camera, Upload } from 'lucide-react';
 
 interface ProfileSettingsProps {
@@ -17,9 +17,10 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose }) =>
     name: 'John Doe',
     username: 'johndoe',
     email: 'john@example.com',
-    category: 'News Broadcaster', // This shouldn't change after first assignment
+    category: '', // Empty initially - user must select
+    categoryLocked: false, // Track if category has been set before
     bio: 'Passionate about technology and innovation',
-    profilePicture: '' // Add profile picture state
+    profilePicture: ''
   });
 
   const categories = [
@@ -31,7 +32,10 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose }) =>
   ];
 
   const handleSave = () => {
-    // Save profile logic would go here
+    // If category is being set for the first time, lock it
+    if (profile.category && !profile.categoryLocked) {
+      setProfile(prev => ({ ...prev, categoryLocked: true }));
+    }
     console.log('Profile saved:', profile);
     onClose();
   };
@@ -128,20 +132,46 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose }) =>
           </div>
           
           <div>
-            <Label>Category (Cannot be changed)</Label>
-            <div className="p-3 bg-gray-50 rounded-md border">
-              <div className="flex items-center space-x-2">
-                {categories.find(cat => cat.name === profile.category)?.icon && (
-                  React.createElement(categories.find(cat => cat.name === profile.category)!.icon, {
-                    className: `h-5 w-5 ${categories.find(cat => cat.name === profile.category)?.color}`
-                  })
-                )}
-                <span className="font-medium text-gray-600">{profile.category}</span>
+            <Label>Category {profile.categoryLocked ? '(Cannot be changed)' : '(Select once)'}</Label>
+            {profile.categoryLocked ? (
+              <div className="p-3 bg-gray-50 rounded-md border">
+                <div className="flex items-center space-x-2">
+                  {categories.find(cat => cat.name === profile.category)?.icon && (
+                    React.createElement(categories.find(cat => cat.name === profile.category)!.icon, {
+                      className: `h-5 w-5 ${categories.find(cat => cat.name === profile.category)?.color}`
+                    })
+                  )}
+                  <span className="font-medium text-gray-600">{profile.category}</span>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Category is assigned once and cannot be modified
+                </p>
               </div>
-              <p className="text-xs text-gray-500 mt-1">
-                Category is assigned once and cannot be modified
-              </p>
-            </div>
+            ) : (
+              <div>
+                <Select 
+                  value={profile.category} 
+                  onValueChange={(value) => setProfile({...profile, category: value})}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select your category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.name} value={category.name}>
+                        <div className="flex items-center space-x-2">
+                          <category.icon className={`h-4 w-4 ${category.color}`} />
+                          <span>{category.name}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Choose carefully - this cannot be changed once selected
+                </p>
+              </div>
+            )}
           </div>
           
           <div>
