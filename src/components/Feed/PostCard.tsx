@@ -4,6 +4,7 @@ import { ThumbsUp, MessageSquare, Forward, Bookmark, MoreHorizontal, Eye } from 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
+import { usePost } from '@/contexts/PostContext';
 
 interface PostCardProps {
   author: {
@@ -32,6 +33,17 @@ const PostCard: React.FC<PostCardProps> = ({
   views,
   category 
 }) => {
+  const postId = `${author.username}-${timestamp}`;
+  const { postInteractions, likePost, commentPost, sharePost, bookmarkPost } = usePost();
+  
+  const interaction = postInteractions[postId];
+  const currentLikes = interaction?.likes !== undefined ? interaction.likes : likes;
+  const currentComments = interaction?.comments !== undefined ? interaction.comments : comments;
+  const currentShares = interaction?.shares !== undefined ? interaction.shares : shares;
+  const currentViews = interaction?.views !== undefined ? interaction.views : views;
+  const isLiked = interaction?.isLiked || false;
+  const isBookmarked = interaction?.isBookmarked || false;
+
   return (
     <Card className="mb-4 hover:shadow-md transition-shadow">
       <CardContent className="p-6">
@@ -86,25 +98,45 @@ const PostCard: React.FC<PostCardProps> = ({
         {/* Actions */}
         <div className="flex items-center justify-between pt-3 border-t border-gray-100">
           <div className="flex items-center space-x-6">
-            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-blue-500">
-              <ThumbsUp className="h-4 w-4 mr-1" />
-              <span className="text-sm">{likes}</span>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className={`${isLiked ? 'text-blue-500' : 'text-gray-500'} hover:text-blue-500`}
+              onClick={() => likePost(postId)}
+            >
+              <ThumbsUp className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
+              <span className="text-sm">{currentLikes}</span>
             </Button>
-            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-green-500">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-gray-500 hover:text-green-500"
+              onClick={() => commentPost(postId)}
+            >
               <MessageSquare className="h-4 w-4 mr-1" />
-              <span className="text-sm">{comments}</span>
+              <span className="text-sm">{currentComments}</span>
             </Button>
-            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-purple-500">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-gray-500 hover:text-purple-500"
+              onClick={() => sharePost(postId)}
+            >
               <Forward className="h-4 w-4 mr-1" />
-              <span className="text-sm">{shares}</span>
+              <span className="text-sm">{currentShares}</span>
             </Button>
             <div className="flex items-center text-gray-500">
               <Eye className="h-4 w-4 mr-1" />
-              <span className="text-sm">{views}</span>
+              <span className="text-sm">{currentViews}</span>
             </div>
           </div>
-          <Button variant="ghost" size="sm" className="text-gray-500 hover:text-orange-500">
-            <Bookmark className="h-4 w-4" />
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className={`${isBookmarked ? 'text-orange-500' : 'text-gray-500'} hover:text-orange-500`}
+            onClick={() => bookmarkPost(postId)}
+          >
+            <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`} />
           </Button>
         </div>
       </CardContent>
