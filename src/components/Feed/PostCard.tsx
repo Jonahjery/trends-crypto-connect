@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ThumbsUp, MessageSquare, Forward, Bookmark, MoreHorizontal } from 'lucide-react';
+import { ThumbsUp, MessageSquare, Forward, Bookmark, MoreHorizontal, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -18,6 +18,7 @@ interface PostCardProps {
   likes: number;
   comments: number;
   shares: number;
+  views: number;
   category?: string;
 }
 
@@ -27,7 +28,8 @@ const PostCard: React.FC<PostCardProps> = ({
   timestamp, 
   likes, 
   comments, 
-  shares, 
+  shares,
+  views,
   category 
 }) => {
   return (
@@ -96,6 +98,10 @@ const PostCard: React.FC<PostCardProps> = ({
               <Forward className="h-4 w-4 mr-1" />
               <span className="text-sm">{shares}</span>
             </Button>
+            <div className="flex items-center text-gray-500">
+              <Eye className="h-4 w-4 mr-1" />
+              <span className="text-sm">{views}</span>
+            </div>
           </div>
           <Button variant="ghost" size="sm" className="text-gray-500 hover:text-orange-500">
             <Bookmark className="h-4 w-4" />

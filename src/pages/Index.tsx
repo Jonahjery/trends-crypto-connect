@@ -25,6 +25,7 @@ const Index = () => {
       likes: 1247,
       comments: 89,
       shares: 234,
+      views: 12450,
       category: 'Crypto News'
     },
     {
@@ -39,6 +40,7 @@ const Index = () => {
       likes: 892,
       comments: 156,
       shares: 445,
+      views: 8920,
       category: 'Government Policy'
     },
     {
@@ -53,6 +55,7 @@ const Index = () => {
       likes: 567,
       comments: 234,
       shares: 123,
+      views: 5670,
       category: 'NGO Updates'
     },
     {
@@ -67,6 +70,7 @@ const Index = () => {
       likes: 234,
       comments: 67,
       shares: 89,
+      views: 2340,
       category: 'Politics'
     },
     {
@@ -81,6 +85,7 @@ const Index = () => {
       likes: 445,
       comments: 78,
       shares: 156,
+      views: 4450,
       category: 'Government Policy'
     }
   ];
