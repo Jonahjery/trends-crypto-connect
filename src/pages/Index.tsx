@@ -18,7 +18,7 @@ const Index = () => {
         name: 'CryptoNews Daily',
         username: 'cryptonews',
         verified: true,
-        role: 'News Broadcaster'
+        role: 'News Organization'
       },
       content: 'BREAKING: Bitcoin reaches new all-time high as institutional adoption continues to surge. Major corporations are now adding BTC to their treasury reserves. This could signal the beginning of the next bull run. What are your thoughts on this development? 🚀',
       timestamp: '2h',
